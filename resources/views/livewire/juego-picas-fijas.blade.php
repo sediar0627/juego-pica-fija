@@ -1,9 +1,10 @@
 <div class="picas-fijas-container">
     <style>
         .picas-fijas-container {
-            max-width: 1200px;
+            max-width: 900px;
             margin: 0 auto;
             padding: 1rem;
+            width: 95%;
         }
 
         @media (min-width: 768px) {
