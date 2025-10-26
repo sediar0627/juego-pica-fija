@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Juegos\Tables;
 
 use App\Enum\EstadoJuego;
+use App\Filament\Pages\JuegoPage;
 use App\Models\Juego;
 use Closure;
 use Filament\Actions\Action;
@@ -131,6 +132,18 @@ class JuegosTable
                         $record->numero_jugador_1 && 
                         $record->numero_jugador_2 &&
                         $record->estado === EstadoJuego::NUMEROS_ASIGNADOS
+                    ),
+
+                Action::make('jugar')
+                    ->icon(Heroicon::Play)
+                    ->url(fn (Juego $record): string => JuegoPage::getUrl(['juego' => $record->id]))
+                    ->color('success')
+                    ->visible(fn (Juego $record) => 
+                        $record->estado === EstadoJuego::EN_PROGRESO && 
+                        (
+                            Auth::user()->id === $record->jugador_1_id || 
+                            Auth::user()->id === $record->jugador_2_id
+                        )
                     ),
             ])
             ->toolbarActions([
