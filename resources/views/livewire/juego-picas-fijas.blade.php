@@ -363,7 +363,6 @@
         .turnos-table {
             width: 100%;
             border-collapse: collapse;
-            min-width: 500px;
         }
 
         .turnos-table thead {
@@ -383,6 +382,10 @@
         }
 
         @media (min-width: 768px) {
+            .turnos-table {
+                min-width: 500px;
+            }
+
             .turnos-table th {
                 padding: 1rem;
                 font-size: 1rem;
