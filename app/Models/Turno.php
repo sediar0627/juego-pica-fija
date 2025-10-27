@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Events\TurnoCompletadoEvent;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -16,6 +17,15 @@ class Turno extends Model
         'picas',
         'fijas',
     ];
+
+    protected static function booted()
+    {
+        static::created(function (Turno $turno) {
+            broadcast(new TurnoCompletadoEvent(
+                juegoId: $turno->juego_id
+            ))->toOthers();
+        });
+    }
 
     public function juego(): BelongsTo
     {

@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Enum\EstadoJuego;
 use App\Models\Juego;
 use App\Models\Turno;
+use Filament\Notifications\Notification;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
@@ -186,6 +187,27 @@ class JuegoPicasFijas extends Component
             'numeroJugador' => $numeroJugador,
             'numeroContrario' => $numeroContrario,
             'turnosContrario' => $turnosContrario,
+        ]);
+    }
+
+    public function getListeners()
+    {
+        return [
+            "echo:TurnoCompletadoEvent.{$this->juego->id},TurnoCompletadoEvent" => 'onTurnoCompletado',
+        ];
+    }
+
+    public function onTurnoCompletado($event)
+    {
+        $this->refrescar();
+
+        Notification::make()
+            ->title('El juego ha sido actualizado')
+            ->success()
+            ->send();
+
+        $this->dispatch('play-sound', [
+            'sound' => 'bell'
         ]);
     }
 }

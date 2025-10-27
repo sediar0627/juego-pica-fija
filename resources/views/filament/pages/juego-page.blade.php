@@ -1,4 +1,6 @@
 <x-filament-panels::page>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    
     @if($juegoId)
         @livewire('juego-picas-fijas', ['juegoId' => $juegoId])
     @else

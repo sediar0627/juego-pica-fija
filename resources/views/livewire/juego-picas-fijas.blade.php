@@ -713,9 +713,6 @@
                     ⏳ Esperando al otro jugador...
                 @endif
             </span>
-            <button wire:click="refrescar" class="refresh-btn" type="button">
-                🔄 Actualizar
-            </button>
         </div>
 
         <!-- Sección de input (solo visible durante el juego) -->
@@ -767,7 +764,6 @@
                         <th>Número</th>
                         <th>Picas</th>
                         <th>Fijas</th>
-                        <th>Fecha</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -784,9 +780,6 @@
                                 <span class="badge badge-fijas">
                                     ✅ {{ $turno->fijas }}
                                 </span>
-                            </td>
-                            <td style="color: #718096; font-size: 0.75rem;">
-                                {{ $turno->created_at->format('H:i:s') }}
                             </td>
                         </tr>
                     @endforeach
@@ -822,7 +815,6 @@
                         <th>Número</th>
                         <th>Picas</th>
                         <th>Fijas</th>
-                        <th>Fecha</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -840,13 +832,22 @@
                                     ✅ {{ $turno->fijas }}
                                 </span>
                             </td>
-                            <td style="color: #718096; font-size: 0.75rem;">
-                                {{ $turno->created_at->format('H:i:s') }}
-                            </td>
                         </tr>
                     @endforeach
                 </tbody>
             </table>
         @endif
     </div>
+
+    <audio id="notification-sound" src="{{ asset('sounds/bell.mp3') }}" preload="auto"></audio>
+
+    <script>
+        window.addEventListener('play-sound', event => {
+            const audio = document.getElementById('notification-sound');
+            if (audio) {
+                audio.currentTime = 0; // reinicia el sonido
+                audio.play();
+            }
+        });
+    </script>
 </div>
